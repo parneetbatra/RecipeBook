@@ -1,0 +1,85 @@
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RecipeBook</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="Home">RecipeBook</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/recipe/1">Recipies</a>
+                    </li>
+                </ul>
+                <div class="dropdown">
+
+                    @{
+                        if (User.FindFirst(ClaimTypes.Email) != null)
+                        {
+                            var Name = User.FindFirst(ClaimTypes.Name).Value;
+                            var Id = User.FindFirst("Id").Value;
+                            var Img = User.FindFirst("Image").Value;
+                                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="~/images/@Html.DisplayFor(model => Img)" />&nbsp;&nbsp;
+                                            @Name
+                                        </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Details" asp-route-id="@User.FindFirst("Id").Value">Profile</a>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Login
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Create">Signup</a>
+                            </div>
+
+                        }
+
+                    }
+                </div>
+
+            </div>
+        </nav>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - RecipeBook - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+<style>
+    img {
+        border-radius: 50%;
+        height: 30px;
+        width: 30px;
+    }
+</style>

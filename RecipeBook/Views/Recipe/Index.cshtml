@@ -1,0 +1,172 @@
+@model IEnumerable<RecipeBook.Models.RecipeUserView>
+
+@{ ViewData["Title"] = "Index"; }
+
+    <div class="row">
+        <div class="col-8">
+            <a asp-action="Create">Create New</a>
+
+        </div>
+        <div class="col-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+
+                    @{ string DisableClassPrevious = "";
+                        if (ViewBag.Previous == null)
+                        {
+                            DisableClassPrevious = " disabled";
+                        }
+                        <li class="page-item @DisableClassPrevious"><a class="page-link" href="/recipe/@ViewBag.Previous">Previous</a></li>
+                         for (int i = 1; i < ViewBag.Total; i++)
+                         {
+                              <li class="page-item"><a class="page-link" href="/recipe/@i">@i</a></li>
+                         }
+
+                        string DisableClassNext = "";
+                        if (ViewBag.Next == null)
+                        {
+
+                            DisableClassNext = " disabled";
+                        }
+
+                        <li class="page-item @DisableClassNext"><a class="page-link" href="/recipe/@ViewBag.Next">Next</a></li>
+                    }
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+
+<br />
+@foreach (var item in Model)
+{
+<div class="crd">
+
+    @if (item.RecipeImages.Count > 0)
+    {
+        <img src="~/RecipeImages/@Html.DisplayFor(modelItem => item.RecipeImages[0].Image)"  />
+
+    }
+    <div class="alert alert-secondary" role="alert">
+        <div class="row">
+            <div class="col-6">
+                <span style="font-size:20px">@Html.DisplayFor(modelItem => item.RecipeName)</span>
+            </div>
+            <div class="col-2">
+             
+            </div>
+            <div class="col-4">
+                <span style="font-size:12px">@Html.DisplayFor(modelItem => item.RecipeTimeToComplete)</span>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <img src="~/Images/@item.Image" /> @item.Name
+        <p class="card-text">@Html.DisplayFor(modelItem => item.RecipeDescription)</p>
+        <hr />
+        <div class="row">
+            <div class="col-sm">
+                @Html.ActionLink("Details", "Details", new { id = @item.RecipeId },
+                                                new { @class = "btn btn-outline-info btn-lg btn-block" })
+            </div>
+            @if (Convert.ToInt32(User.FindFirst("Id").Value) == item.Id)
+            {
+            <div class="col-sm">
+                @Html.ActionLink("Edit", "Edit", new { id = @item.RecipeId },
+                                              new { @class = "btn btn-outline-primary btn-lg btn-block" })
+            </div>
+
+            <div class="col-sm">
+                @Html.ActionLink("Delete", "Delete", new { id = @item.RecipeId },
+                                                  new { @class = "btn btn-outline-danger btn-lg btn-block" })
+
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}
+
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeToComplete)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeToComplete)
+        </td>
+        <td>
+            <img src="~/RecipeImages/@Html.DisplayFor(modelItem => item.Image)" height="100px" width="100px" />
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+    </tr>
+    }
+        </tbody>
+    </table>*@
+@*<style>
+        .card-img-top:hover {
+            -ms-transform: scale(1.1); /* IE 9 */
+            -webkit-transform: scale(1.5); /* Safari 3-8 */
+            transform: scale(1.1);
+    </style>*@
+<!--<style>-->
+    @*.card {
+        margin-left: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 40%;
+    }*@
+
+        <!--.crd:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+    .container {
+        padding: 2px 16px;
+    }-->
+    @*kk*@
+    <!--.crd {
+        float: left;
+        margin-left: 5px;
+        width: 362px;
+        height: 440px;
+        margin-top: 10px;-->
+        @*border: 1px solid black;*@
+    <!--}
+    img {
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+    }
+
+</style>-->

@@ -1,0 +1,48 @@
+@model RecipeBook.Models.RecipeUserView
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Recipe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RecipeName" class="control-label"></label>
+                <input asp-for="RecipeName" class="form-control" />
+                <span asp-validation-for="RecipeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeDescription" class="control-label"></label>
+                <input asp-for="RecipeDescription" class="form-control" />
+                <span asp-validation-for="RecipeDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeTimeToComplete" class="control-label"></label>
+                <input asp-for="RecipeTimeToComplete" class="form-control" />
+                <span asp-validation-for="RecipeTimeToComplete" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeImage" class="control-label"></label>
+                <input asp-for="RecipeImage" type="file" class="form-control" multiple />
+                <span asp-validation-for="RecipeImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
