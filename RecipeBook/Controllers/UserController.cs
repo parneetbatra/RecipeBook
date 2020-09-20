@@ -52,7 +52,10 @@ namespace RecipeBook.Controllers
 
                 var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
-                HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(userIdentity));
+                //HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(userIdentity));
+                var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+                HttpContext.SignInAsync(userPrincipal);
+
 
                 return RedirectToAction("Index", "Home");
             }

@@ -59,7 +59,7 @@ namespace RecipeBook.Controllers
                                                             {
                                                                 RecipeId = r.Id,
                                                                 RecipeName = r.Name,
-                                                                RecipeImages = _context.RecipeImages.Where(f => f.Id == r.Id).ToList(),
+                                                                RecipeImages = _context.RecipeImages.Where(f => f.RecipeId == r.Id).ToList(),
                                                                 RecipeDescription = r.Description,
                                                                 RecipeTimeToComplete = r.TimeToComplete,
                                                                 Image = u.Image,
@@ -86,7 +86,7 @@ namespace RecipeBook.Controllers
                                                      {
                                                          RecipeId = r.Id,
                                                          RecipeName = r.Name,
-                                                         RecipeImages = _context.RecipeImages.Where(f => f.Id == r.Id).ToList(),
+                                                         RecipeImages = _context.RecipeImages.Where(f => f.RecipeId == r.Id).ToList(),
                                                          RecipeDescription = r.Description,
                                                          RecipeTimeToComplete = r.TimeToComplete,
                                                          Image = u.Image,
@@ -157,7 +157,7 @@ namespace RecipeBook.Controllers
                     }
                 }
 
-                return RedirectToAction("Recipe", "Index", new { Page = 1 });
+                return RedirectToAction("Index", "Recipe", new { Page = 1 });
             }
             return View(recipe);
         }
@@ -250,14 +250,18 @@ namespace RecipeBook.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
+            var recipe = await _context.Recipes.FindAsync(id);
+            _context.Recipes.Remove(recipe);
+            await _context.SaveChangesAsync();
 
-            return View(recipe);
+            List<RecipeImages> recipeImages = _context.RecipeImages.Where(f => f.RecipeId == id).ToList();
+            for (int i = 0; i < recipeImages.Count; i++)
+            {
+                string path = Path.Combine(_environment.WebRootPath, "RecipeImages") + "/" + recipeImages[i].Image;
+                System.IO.File.Delete(path);
+
+            }
+            return RedirectToAction("Index", "Recipe", new { Page = 1 });
         }
 
         // POST: Recipe/Delete/5
