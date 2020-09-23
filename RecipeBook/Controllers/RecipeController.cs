@@ -92,8 +92,8 @@ namespace RecipeBook.Controllers
                                                          Image = u.Image,
                                                          Name = u.Name,
                                                          Id = u.Id,
-                                                         Steps = _context.Steps.Where(f => f.RecipeId == r.Id).ToList(),
-                                                         Ingredients = _context.Ingredients.Where(f => f.RecipeId == r.Id).ToList()
+                                                         Steps = _context.Steps.Where(f => f.RecipeId == r.Id).OrderBy(f => f.OrderNumber).ToList(),
+                                                         Ingredients = _context.Ingredients.Where(f => f.RecipeId == r.Id).OrderBy(f => f.OrderNumber).ToList()
                                                      }).FirstOrDefault();
 
 
@@ -171,6 +171,8 @@ namespace RecipeBook.Controllers
             }
 
             var recipe = await _context.Recipes.FindAsync(id);
+            ViewBag.RecipeImages = _context.RecipeImages.Where(f => f.RecipeId == id).ToList();
+
             if (recipe == null)
             {
                 return NotFound();

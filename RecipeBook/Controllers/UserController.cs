@@ -38,7 +38,7 @@ namespace RecipeBook.Controllers
         [HttpPost]
         public ActionResult Login(User modal)
         {
-            var user = _context.Users.Where(u => u.Email == modal.Email && u.Password == modal.Password).FirstOrDefault();
+            var user = _context.Users.Where(u => u.Email == modal.Email && u.Password == Core.Password.Encrypt(modal.Password)).FirstOrDefault();
             if (user != null)
             {
                 var userClaims = new List<Claim>()
@@ -132,6 +132,8 @@ namespace RecipeBook.Controllers
                     fs.Flush();
                 }
             }
+
+            user.Password = Core.Password.Encrypt(user.Password);
 
             user.Role = "User";
             user.Image = fileName;

@@ -46,10 +46,13 @@ namespace RecipeBook.Controllers
         }
 
         // GET: Step/Create
-        public IActionResult Create()
+        public IActionResult Create(int recipeId)
         {
-            ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["RecipeId"] = recipeId;
+            ViewData["UserId"] = Convert.ToInt32(User.FindFirst("Id").Value);
+
+            //ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id");
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -58,17 +61,17 @@ namespace RecipeBook.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,UserId,RecipeId")] Step step)
+        public async Task<IActionResult> Create(Step step)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(step);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Recipe", new { id = step.RecipeId });
             }
-            ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id", step.RecipeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", step.UserId);
-            return View(step);
+            //ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id", step.RecipeId);
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", step.UserId);
+            return RedirectToAction("Details", "Recipe", new { id = step.RecipeId });
         }
 
         // GET: Step/Edit/5
@@ -84,8 +87,8 @@ namespace RecipeBook.Controllers
             {
                 return NotFound();
             }
-            ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id", step.RecipeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", step.UserId);
+            //ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id", step.RecipeId);
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", step.UserId);
             return View(step);
         }
 
@@ -94,7 +97,7 @@ namespace RecipeBook.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserId,RecipeId")] Step step)
+        public async Task<IActionResult> Edit(int id, Step step)
         {
             if (id != step.Id)
             {
@@ -119,10 +122,10 @@ namespace RecipeBook.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Recipe", new { id = step.RecipeId });
             }
-            ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id", step.RecipeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", step.UserId);
+            //ViewData["RecipeId"] = new SelectList(_context.Recipes, "Id", "Id", step.RecipeId);
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", step.UserId);
             return View(step);
         }
 
@@ -154,7 +157,7 @@ namespace RecipeBook.Controllers
             var step = await _context.Steps.FindAsync(id);
             _context.Steps.Remove(step);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Recipe", new { id = step.RecipeId });
         }
 
         private bool StepExists(int id)

@@ -28,13 +28,23 @@
                 <input asp-for="TimeToComplete" class="form-control" />
                 <span asp-validation-for="TimeToComplete" class="text-danger"></span>
             </div>
+            @if (ViewBag.RecipeImages != null)
+            {
+                List<RecipeImages> recipeImages = ViewBag.RecipeImages;
+                <ul>
+                    @for (int i = 0; i < recipeImages.Count; i++)
+                    {
+                        <li><img src="~/RecipeImages/@recipeImages[i].Image" width="100px" height="auto" /></li>
+                    }
+                </ul>
+            }
             @*<div class="form-group">
-                <img src="~/RecipeImages/@Model.Image" height="100px" width="auto" />
+                    <img src="~/RecipeImages/@Model.Image" height="100px" width="auto" />
 
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

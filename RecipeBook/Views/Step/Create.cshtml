@@ -18,13 +18,20 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                <label asp-for="OrderNumber" class="control-label"></label>
+                <input asp-for="OrderNumber" class="form-control" />
+                <span asp-validation-for="OrderNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RecipeId" class="control-label"></label>
-                <select asp-for="RecipeId" class ="form-control" asp-items="ViewBag.RecipeId"></select>
-            </div>
+            <input asp-for="UserId" type="hidden" class="form-control" value="@ViewBag.UserId" />
+            <input asp-for="RecipeId" type="hidden" class="form-control" value="@ViewBag.RecipeId" />
+            @*<div class="form-group">
+            <label asp-for="UserId" class="control-label"></label>
+            <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="RecipeId" class="control-label"></label>
+            <select asp-for="RecipeId" class ="form-control" asp-items="ViewBag.RecipeId"></select>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

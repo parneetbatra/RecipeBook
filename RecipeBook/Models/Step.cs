@@ -12,6 +12,11 @@ namespace RecipeBook.Models
         [Required]
         [Display(Name ="Step Name")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Order Number")]
+        public int OrderNumber { get; set; }
+
         // remove this column 
         [ForeignKey("User")]
         public int UserId { get; set; }
